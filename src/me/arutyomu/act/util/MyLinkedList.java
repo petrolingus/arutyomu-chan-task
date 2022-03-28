@@ -111,6 +111,71 @@ public final class MyLinkedList<E> implements MyList<E> {
         return new MyListIterator(0);
     }
 
+    /**
+     * Swap nodes in list. USED FOR TASK 1
+     *
+     * @param left  - left node id
+     * @param right - right node id
+     */
+    @Override
+    public void swapNodes(int left, int right) {
+        Node<E> prevNode1 = null;
+        Node<E> prevNode2 = null;
+        Node<E> node1 = first;
+        Node<E> node2 = first;
+
+        // Checks if list is empty
+        if (first == null) {
+            return;
+        }
+
+        // If left and right are equal, then list will remain the same
+        if (left == right) {
+            return;
+        }
+
+        // Search for node1 index
+        int tmp1 = 0;
+        while (node1 != null && tmp1 != left) {
+            prevNode1 = node1;
+            node1 = node1.next;
+            tmp1++;
+        }
+
+        //Search for node2 index
+        int tmp2 = 0;
+        while (node2 != null && tmp2 != right) {
+            prevNode2 = node2;
+            node2 = node2.next;
+            tmp2++;
+        }
+
+        if (node1 != null && node2 != null) {
+
+            // If previous node to node1 is not null then, it will point to node2
+            if (prevNode1 != null) {
+                prevNode1.next = node2;
+            } else {
+                first = node2;
+            }
+
+            // If previous node to node2 is not null then, it will point to node1
+            if (prevNode2 != null) {
+                prevNode2.next = node1;
+            } else {
+                first = node1;
+            }
+
+            // Swaps the next nodes of node1 and node2
+            Node<E> temp = node1.next;
+            node1.next = node2.next;
+            node2.next = temp;
+
+        } else {
+            System.out.println("Swapping is not possible");
+        }
+    }
+
     private void checkElementIndex(int index) {
         if (!(index >= 0 && index < size)) {
             throw new IndexOutOfBoundsException("Out of bounds: " + index);
@@ -257,7 +322,7 @@ public final class MyLinkedList<E> implements MyList<E> {
 
         public void forEachRemaining(Consumer<? super E> action) {
             Objects.requireNonNull(action);
-            while ( nextIndex < size) {
+            while (nextIndex < size) {
                 action.accept(next.item);
                 lastReturned = next;
                 next = next.next;

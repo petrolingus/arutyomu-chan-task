@@ -3,6 +3,8 @@ package me.arutyomu.act.test;
 import me.arutyomu.act.util.MyLinkedList;
 import me.arutyomu.act.util.MyList;
 
+import java.util.Random;
+
 public class MyLinkedListTest {
 
     public static void main(String[] args) {
@@ -42,6 +44,15 @@ public class MyLinkedListTest {
             System.out.print(list.get(i) + ", ");
         }
         System.out.println(")");
+
+        // 25 random swaps
+        Random random = new Random();
+        for (int i = 0; i < 25; i++) {
+            int left = random.nextInt(list.size());
+            int right = random.nextInt(list.size());
+            list.swapNodes(left, right);
+            System.out.println("Swap " + left + " and " + right + " nodes: " + list);
+        }
 
         // Cleaning list
         list.clear();
