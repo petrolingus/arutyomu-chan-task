@@ -30,7 +30,6 @@ public final class MyLinkedList<E> implements MyList<E> {
             Node<E> next = x.next;
             x.item = null;
             x.next = null;
-            x.prev = null;
             x = next;
         }
         first = last = null;
@@ -119,15 +118,9 @@ public final class MyLinkedList<E> implements MyList<E> {
     }
 
     private Node<E> node(int index) {
-        Node<E> x;
-        if (index < (size >> 1)) {
-            x = first;
-            for (int i = 0; i < index; i++)
-                x = x.next;
-        } else {
-            x = last;
-            for (int i = size - 1; i > index; i--)
-                x = x.prev;
+        Node<E> x = first;
+        for (int i = 0; i < index; i++) {
+            x = x.next;
         }
         return x;
     }
@@ -143,10 +136,23 @@ public final class MyLinkedList<E> implements MyList<E> {
         size++;
     }
 
+    private Node<E> findPrevNode(Node<E> successor) {
+        Node<E> pred = first;
+        if (pred != null) {
+            for (int i = 0; i < size; i++) {
+                if (Objects.equals(pred.next, successor)) {
+                    break;
+                } else {
+                    pred = pred.next;
+                }
+            }
+        }
+        return pred;
+    }
+
     private void linkBefore(E e, Node<E> successor) {
-        final Node<E> pred = successor.prev;
+        Node<E> pred = findPrevNode(successor);
         final Node<E> newNode = new Node<>(e, successor);
-        successor.prev = newNode;
         if (pred == null)
             first = newNode;
         else
@@ -157,19 +163,17 @@ public final class MyLinkedList<E> implements MyList<E> {
     private E unlink(Node<E> x) {
         final E element = x.item;
         final Node<E> next = x.next;
-        final Node<E> prev = x.prev;
+        final Node<E> prev = findPrevNode(x);
 
         if (prev == null) {
             first = next;
         } else {
             prev.next = next;
-            x.prev = null;
         }
 
         if (next == null) {
             last = prev;
         } else {
-            next.prev = prev;
             x.next = null;
         }
 
@@ -210,7 +214,7 @@ public final class MyLinkedList<E> implements MyList<E> {
             if (!hasPrevious()) {
                 throw new NoSuchElementException();
             }
-            lastReturned = next = (next == null) ? last : next.prev;
+            lastReturned = next = (next == null) ? last : findPrevNode(next);
             nextIndex--;
             return lastReturned.item;
         }
@@ -265,7 +269,6 @@ public final class MyLinkedList<E> implements MyList<E> {
     private static class Node<E> {
         E item;
         Node<E> next;
-        Node<E> prev;
 
         Node(E element, Node<E> next) {
             this.item = element;

@@ -18,6 +18,10 @@ public class MyLinkedListTest {
         // Add object via id
         list.add(0, 7);
         list.add(2, 8);
+        list.add(list.size() - 1, 9);
+
+        // Clear of list
+
 
         // Print array
         System.out.println(list);
