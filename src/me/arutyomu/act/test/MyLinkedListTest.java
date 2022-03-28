@@ -20,12 +20,34 @@ public class MyLinkedListTest {
         list.add(2, 8);
         list.add(list.size() - 1, 9);
 
-        // Clear of list
+        // Print array
+        System.out.println(list + " Size: " + list.size());
 
+        list.remove(0);
+        list.remove(list.size() - 1);
 
         // Print array
-        System.out.println(list);
+        System.out.println("List after removing head and tail elements: " + list + " Size: " + list.size());
 
+        // Foreach test
+        System.out.print("Print list with foreach: \n[");
+        for (Integer i : list) {
+            System.out.print(i + " | ");
+        }
+        System.out.println("]");
+
+        // Get elements by id
+        System.out.print("Print list with for: \n(");
+        for (int i = 0; i < list.size(); i++) {
+            System.out.print(list.get(i) + ", ");
+        }
+        System.out.println(")");
+
+        // Cleaning list
+        list.clear();
+
+        // Print array
+        System.out.println("List after cleaning: " + list + " Size: " + list.size());
     }
 
 }
