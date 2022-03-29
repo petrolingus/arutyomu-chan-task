@@ -26,7 +26,11 @@ public class Task1 extends JDialog {
             JFileChooser fileChooser = new JFileChooser(System.getProperty("user.dir") + "/resources/task1");
             fileChooser.showOpenDialog(Task1.this);
             File file = fileChooser.getSelectedFile();
-
+            if (file == null) {
+                System.out.println("File not selected: noop");
+                return;
+            }
+            list.clear();
             try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
                 String line = reader.readLine();
                 String[] stringNumbers = line.split(" ");
@@ -44,10 +48,10 @@ public class Task1 extends JDialog {
             int minIndex = 0;
             int maxIndex = 0;
             for (int i = 1; i < list.size(); i++) {
-                if (list.get(list.size() - i) < list.get(minIndex)) {
+                if (list.get(list.size() - i) <= list.get(minIndex)) {
                     minIndex = list.size() - i;
                 }
-                if (list.get(i) > list.get(maxIndex)) {
+                if (list.get(i) >= list.get(maxIndex)) {
                     maxIndex = i;
                 }
             }
